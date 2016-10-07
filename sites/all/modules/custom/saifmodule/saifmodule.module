@@ -1,0 +1,69 @@
+<?php
+function saifmodule_permission()
+{
+ return array(
+   'edit my settings' => array(
+     'title' => t('Edit My Settings'), 
+     'description' => t('Edit My Custom Settings Page'),
+  ),
+ );
+}
+
+
+function saifmodule_menu() 
+{
+ $result = array();
+ $result['manage/mysettings'] = array(
+  'title' => 'My Settings', // Title of our page
+  'description'=> 'My Custom Settings', // Description of our page
+  'page callback' => 'drupal_get_form',
+  'page arguments' => array('saifmodule_form'), // function that will returns the results to our page
+  'access arguments' => array('edit my settings'), // permission to access this page
+  'type' => MENU_NORMAL_ITEM, // type of menu item
+ );
+ 
+ return $result;
+}
+
+function saifmodule_form() {
+ 
+$form = array();
+ $form['saifmodule_my_name'] = array(
+  '#type' => 'textfield',
+  '#title' => t('My Name'),
+  '#default_value' => variable_get('saifmodule_my_name', ''),
+  '#required' => TRUE,
+ );
+ $form['saifmodule_about_me'] = array(
+  '#type' => 'textarea',
+  '#title' => t('About Me'),
+  '#default_value' => variable_get('saifmodule_about_me', ''),
+  '#required' => TRUE,
+ );
+ 
+ $form['submit'] = array(
+  '#type' => 'submit',
+  '#value' => 'Submit',
+ );
+ 
+ $form['#submit'][] = 'system_settings_form_submit';
+ return $form;
+}
+
+function saifmodule_block_info() {
+ $blocks['saifmodule_about_me'] = array(
+  'info' => t('About Me'),
+ );
+ return $blocks;
+}
+
+function saifmodule_block_view($delta='') {
+ $block = array();
+ switch ($delta) {
+  case 'saifmodule_about_me':
+   $block['subject'] = variable_get('saifmodule_my_title', ''); // set the subject of the block to our saifmodule_my_title variable
+   $block['content'] = variable_get('saifmodule_about_me', ''); // set the content of the block to our saifmodule_about_me variable
+   break;
+ }
+ return $block;
+}

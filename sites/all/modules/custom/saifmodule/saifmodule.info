@@ -1,0 +1,4 @@
+name = saifmodule
+description = custom module Dhm-it
+core = 7.x
+package = "custom modules dhm-it"
