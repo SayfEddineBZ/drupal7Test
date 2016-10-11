@@ -1,47 +1,46 @@
 <?php
-
 // noteresource.module
 /** Gets a note object by id.
- *
- * @param int $id
- * @return object
- */
-function dhm_rest_get_note($id) {
+*
+* @param int $id
+* @return object
+*/
+function noteresource_get_note($id) {
   return db_query('SELECT * FROM {note} WHERE id=:id', array(':id' => $id))
            ->fetchAll();
 }
 
 /** Writes a note to the database
- *
- * @param object $note
- * @return void
- */
-function dhm_rest_write_note($note) {
+*
+* @param object $note
+* @return void
+*/
+function noteresource_write_note($note) {
   $primary_key = !empty($note->id) ? array('id') : NULL;
   drupal_write_record('note', $note, $primary_key);
 }
 
 /**
- * Deletes a note from the database.
- *
- * @param int $id
- * @return void
- */
-function dhm_rest_delete_note($id) {
+* Deletes a note from the database.
+*
+* @param int $id
+* @return void
+*/
+function noteresource_delete_note($id) {
   db_query('DELETE FROM {note} WHERE id=:id', array(':id' => $id));
 }
 
 /**
- * Implementation of hook_services_resources().
- */
-function dhm_rest_services_resources() {
+* Implementation of hook_services_resources().
+*/
+function noteresource_services_resources() {
   return array(
     'note' => array(
       'retrieve' => array(
         'help' => 'Retrieves a note',
         'file' => array('file' => 'inc', 'module' => 'noteresource'),
-        'callback' => '_dhm_rest_retrieve',
-        'access callback' => '_dhm_rest_access',
+        'callback' => '_noteresource_retrieve',
+        'access callback' => '_noteresource_access',
         'access arguments' => array('view'),
         'access arguments append' => TRUE,
         'args' => array(
@@ -57,7 +56,7 @@ function dhm_rest_services_resources() {
       'create' => array(
         'help' => 'Creates a note',
         'file' => array('file' => 'inc', 'module' => 'noteresource'),
-        'callback' => '_dhm_rest_create',
+        'callback' => '_noteresource_create',
         'access arguments' => array('note resource create'),
         'access arguments append' => FALSE,
         'args' => array(
@@ -73,8 +72,8 @@ function dhm_rest_services_resources() {
       'update' => array(
         'help' => 'Updates a note',
         'file' => array('file' => 'inc', 'module' => 'noteresource'),
-        'callback' => '_dhm_rest_update',
-        'access callback' => '_dhm_rest_access',
+        'callback' => '_noteresource_update',
+        'access callback' => '_noteresource_access',
         'access arguments' => array('update'),
         'access arguments append' => TRUE,
         'args' => array(
@@ -97,8 +96,8 @@ function dhm_rest_services_resources() {
       'delete' => array(
         'help' => 'Deletes a note',
         'file' => array('file' => 'inc', 'module' => 'noteresource'),
-        'callback' => '_dhm_rest_delete',
-        'access callback' => '_dhm_rest_access',
+        'callback' => '_noteresource_delete',
+        'access callback' => '_noteresource_access',
         'access arguments' => array('delete'),
         'access arguments append' => TRUE,
         'args' => array(
@@ -114,7 +113,7 @@ function dhm_rest_services_resources() {
       'index' => array(
         'help' => 'Retrieves a listing of notes',
         'file' => array('file' => 'inc', 'module' => 'noteresource'),
-        'callback' => '_dhm_rest_index',
+        'callback' => '_noteresource_index',
         'access callback' => 'user_access',
         'access arguments' => array('access content'),
         'access arguments append' => FALSE,

@@ -4,5 +4,5 @@ core = 7.x
 dependencies[] = restful
 package = "custom modules dhm-it"
 
-dependencies[] = services
-dependencies[] = rest_server
+files[] = dhm_rest.inc
+files[] = dhm_rest.module
