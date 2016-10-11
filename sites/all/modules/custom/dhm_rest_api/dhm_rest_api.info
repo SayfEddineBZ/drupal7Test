@@ -1,0 +1,8 @@
+name = Dhm rest API
+description = DHM REST  API
+core = 7.x
+dependencies[] = restful
+package = "custom modules dhm-it"
+
+dependencies[] = services
+dependencies[] = rest_server
