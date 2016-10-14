@@ -1,0 +1,4 @@
+name = Dhm form step
+description = Multistep customer survey form
+package = "custom modules dhm-it"
+core = 7.x

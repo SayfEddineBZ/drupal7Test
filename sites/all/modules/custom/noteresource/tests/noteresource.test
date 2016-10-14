@@ -1,0 +1,46 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ * Description of noteresource
+ *
+ * @author sayfeddine
+ */
+class noteresourceTests extends DrupalWebTestCase {
+/**
+ * Metadata about our test case.
+ */
+public static function getInfo() {
+  return array(
+    // The human readable name of the test case.
+    'name' => 'Test web service dhm',
+    // A short description of the tests this case performs.
+    'description' => 'Tests for the noteresource module.',
+    // The group that this case belongs too, used for grouping tests together
+    // in the UI.
+    'group' => 'Hello World Group',
+  );
+}
+
+/**
+ * Perform any setup tasks for our test case.
+ */
+public function setUp() {
+ parent::setUp(array('noteresource'));
+}
+
+public function testNoteresource() {
+  // Navigate to /helloworld.
+  $this->drupalGet('noteresource');
+  // Verify that the text "Hello World ...", exists on the page.
+  $this->assertText('Hello World. Welcome to Drupal.', 'The page content is present.');
+}
+
+
+}

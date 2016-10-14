@@ -1,0 +1,56 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+module_load_include('inc', 'dhm_step', 'includes/dhm_step.navigation');
+module_load_include('inc', 'dhm_step', 'includes/dhm_step.validate');
+module_load_include('inc', 'dhm_step', 'includes/dhm_step.submit');
+
+
+/**
+ * Implements hook_menu().
+ */
+function dhm_step_menu() {
+
+  $items = array();
+  $items['customer-survey'] = array(
+    'title' => 'Customer Survey',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dhm_step_form'),
+    'access arguments' => array('access content'),
+    'file' => 'includes/dhm_step.form.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  $items['complete-page'] = array(
+    'title' => 'Survey Complete',
+    'page callback' => 'dhm_step_complete',
+    'page arguments' => array(),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  return $items;
+}
+
+
+/*
+ * Implements hook_mail().
+ */
+function dhm_step_mail($key, &$message, $params) {
+    
+  if (isset($params['subject'])) {
+    $message['subject'] = $params['subject'];
+  } 
+  if (isset($params['body'])) {
+    $message['body'][] = $params['body']; 
+  }
+  if (isset($params['headers']) && is_array($params['headers'])) {   
+    $message['headers'] += $params['headers'];
+  }
+  
+}
