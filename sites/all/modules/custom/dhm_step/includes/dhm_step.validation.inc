@@ -49,6 +49,7 @@ function dhm_step_form_validate($form, &$form_state) {
  * @param type $form_state 
  */
 function dhm_step_rate_the_room_validate($form, &$form_state) {
+    
     if (!$form_state['values']['room_rating']) {
         form_set_error('room_rating', 'You must rate our room before continuing');
     }

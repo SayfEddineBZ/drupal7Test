@@ -9,6 +9,7 @@
 module_load_include('inc', 'dhm_step', 'includes/dhm_step.navigation');
 module_load_include('inc', 'dhm_step', 'includes/dhm_step.validate');
 module_load_include('inc', 'dhm_step', 'includes/dhm_step.submit');
+module_load_include('php', 'dhm_step', 'includes/fpdf.class');
 
 
 /**

@@ -21,7 +21,7 @@
  * @return type 
  */
 function dhm_step_get_header($form, &$form_state) {
-
+     
     $form_state['stage'] = isset($form_state['stage']) ? $form_state['stage'] : 1;
 
     $form_stages = array(
@@ -60,7 +60,22 @@ function dhm_step_get_header($form, &$form_state) {
  * @param type $form_state
  * @return string 
  */
-function dhm_step_move_to_next_stage($form, &$form_state) {
+function dhm_step_move_to_next_stage($form, &$form_state,$pdf) {
+    
+        //dpm($form_state);
+        if(isset($form_state["values"]["room_rating"])){
+        $pdf->SetFont('Arial', '', 14);
+        $pdf->Cell(0, 11, 'How would you rate the room you stayed in?', 0, 1);
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(0, 10, 'Response:' . $form_state["values"]["room_rating"], 0, 1);
+        }
+        if(isset($form_state["values"]["service_rating"])){
+        $pdf->SetFont('Arial', '', 14);
+        $pdf->Cell(0, 10, 'How would you rate the room you stayed in?', 0, 1);
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(0, 10, 'Response:' . $form_state["values"]["service_rating"], 0, 1);
+        }
+        $pdf->Output(dirname(__FILE__) . '/files/abc.pdf', 'F');
     switch ($form_state['stage']) {
         case 'rate_the_room':
             return 'rate_the_service';

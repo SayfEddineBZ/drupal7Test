@@ -7,6 +7,7 @@
  */
 
 
+
 /**
  * @file 
  * Handles the form submission of the customer survey form
@@ -23,20 +24,24 @@
  * @param type $form_state 
  */
 function dhm_step_form_submit($form, &$form_state) {
-
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(40, 10, 'Customer Survey', 0, 1);
     switch ($form_state['stage']) {
 
         case 'personal_details':
             $form_state['multistep_values'][$form_state['stage']] = $form_state['values'];
             if ($form_state['triggering_element']['#value'] != 'Back') {
-                dhm_step_personal_details_submit($form, $form_state);
+
+                dhm_step_personal_details_submit($form, $form_state, $pdf);
                 $form_state['complete'] = TRUE;
             }
             break;
 
         default:
             $form_state['multistep_values'][$form_state['stage']] = $form_state['values'];
-            $form_state['new_stage'] = dhm_step_move_to_next_stage($form, $form_state);
+            $form_state['new_stage'] = dhm_step_move_to_next_stage($form, $form_state, $pdf);
             break;
     }
     if (isset($form_state['complete']))
@@ -62,8 +67,7 @@ function dhm_step_form_submit($form, &$form_state) {
  * @param type $form
  * @param type $form_state 
  */
-function dhm_step_personal_details_submit($form, &$form_state) {
-
+function dhm_step_personal_details_submit($form, &$form_state, $pdf) {
     $multstep_values = $form_state['multistep_values'];
 
     $module = 'dhm_step';
@@ -74,17 +78,21 @@ function dhm_step_personal_details_submit($form, &$form_state) {
         'body' => 'Thank you for filling in our survey. You have now been entered into our prize draw.',
         'subject' => 'Thank you for filling in our survey, ' . $multstep_values['personal_details']['name'],
     );
-   
+
     $language = language_default();
     $send = TRUE;
+    $params['attachments'][] = array(
+        'filepath' => dirname(__FILE__) . '/files/abc.pdf',
+        'filename' => 'abc.pdf',
+        'filemime' => 'pdf',
+        'list' => TRUE
+    );
     $result = drupal_mail($module, $key, $to, $language, $params, $from, $send);
     if ($result['result'] == TRUE) {
-        
-        drupal_set_message(t('Your message has been sent.').l("PDF", fillpdf_pdf_link($form_id = 1, $node_id = 1)).print_r($form));
+        drupal_set_message(t('Your message has been sent.'));
     } else {
         drupal_set_message(t('There was a problem sending your message and it was not sent.'), 'error');
     }
-   
 }
 
 /**
